@@ -5,14 +5,12 @@ import dotenv from "dotenv";
 import { initializeDB, shutdownDB } from "./db/dbSelector.js";
 
 import authRoutes from "./routes/authRoutes.js";
-import folderRoutes from "./routes/folderRoutes.js";
-import historyRoutes from "./routes/historyRoutes.js";
-import messageRoutes from "./routes/messageRoutes.js";
-import promptRoutes from "./routes/promptRoutes.js";
-import promptCategoryRoutes from "./routes/promptCategoryRoutes.js";
-import aiRoutes from "./routes/aiRoutes.js";
-import productsRoutes from "./routes/productsRoutes.js";
-import orderRoutes from "./routes/ordersRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
+import venueRoutes from "./routes/venueRoutes.js";
+import couponRoutes from "./routes/couponRoutes.js";
+import accomodationRoutes from "./routes/accommodationRoutes.js";
+import transportationsRoutes from "./routes/transportationRoutes.js";
+import tripsRoutes from "./routes/tripRoutes.js";
 
 import { errorHandler } from "./middleware/errorHandler.js";
 
@@ -35,14 +33,12 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
-app.use("/api/folders", folderRoutes);
-app.use("/api/history", historyRoutes);
-app.use("/api/messages", messageRoutes);
-app.use("/api/prompts", promptRoutes);
-app.use("/api/prompt-categories", promptCategoryRoutes);
-app.use("/api/ai", aiRoutes);
-app.use("/api/products", productsRoutes);
-app.use("/api/orders", orderRoutes);
+app.use("/api/events", eventRoutes);
+app.use("/api/venues", venueRoutes);
+app.use("/api/coupons", couponRoutes);
+app.use("/api/accomodations", accomodationRoutes);
+app.use("/api/transportations", transportationsRoutes);
+app.use("/api/trips", tripsRoutes);
 
 router.get('/api/ping', (req, res) => {
   res.status(200).json({ message: 'OK!' });
