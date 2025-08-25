@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { uploadResources, getResourcesDataByUserId, getResourceDataById, deleteResource, updateResourceMetaData,downloadResource, getResources } from '../handlers/resourceHandler.js';
+import { uploadResources, getResourcesDataByUserId, getResourceDataById, deleteResource, updateResourceMetaData,downloadResource, getResources } from '../handlers/resourceController.js';
 
 const router = express.Router();
 

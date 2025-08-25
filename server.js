@@ -1,21 +1,27 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from "cors";
 
 import { initializeDB, shutdownDB } from './db/dbSelector.js';
 import { setupStorage } from './utils/fileUploadUtils.js';
 
 import authRoutes from './routes/authRoutes.js';
-import folderRoutes from './routes/folderRoutes.js';
-import historyRoutes from './routes/historyRoutes.js';
-import messageRoutes from './routes/messageRoutes.js';
-import promptRoutes from './routes/promptRoutes.js';
-import promptCategoryRoutes from './routes/promptCategoryRoutes.js';
-import productsRoutes from "./routes/productsRoutes.js";
-import aiRoutes from './routes/aiRoutes.js';
-import orderRoutes from './routes/ordersRoutes.js';
-import resourceRoutes from './routes/resourceRoutes.js';
+// import resourceRoutes from './routes/resourceRoutes.js';
 
-import {tokenAuth,scopeAuth} from './middleware/auth.js';
+import accommodationRoutes from './routes/accommodationRoutes.js';
+import attendanceRoutes from './routes/attendanceRoutes.js';
+import couponRoutes from './routes/couponRoutes.js';
+import eventRoutes from './routes/eventRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
+import programRoutes from './routes/programRoutes.js';
+import socialRoutes from './routes/socialRoutes.js';
+import transportationRoutes from './routes/transportationRoutes.js';
+import tripRoutes from './routes/tripRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import venueRoutes from './routes/venueRoutes.js';
+
+
+import {tokenAuth,scopeAuth} from './middleware/auth0.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 import helmet from 'helmet';
@@ -28,25 +34,29 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const router = express.Router();
 
+app.use(cors());
 app.use(express.json());
 
 app.use(helmet());
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100, // Limit each IP to 100 requests per window
+  max: 100, 
   message: 'Too many requests, please try again later',
 }));
 
 app.use('/api/auth', authRoutes);
-app.use('/api/folders', tokenAuth, folderRoutes);
-app.use('/api/history',  tokenAuth, historyRoutes);
-app.use('/api/messages', tokenAuth, messageRoutes);
-app.use('/api/prompts', tokenAuth, promptRoutes);
-app.use('/api/prompt-categories', tokenAuth, promptCategoryRoutes);
-app.use('/api/ai', tokenAuth, aiRoutes);
-app.use("/api/products", tokenAuth, productsRoutes);
-app.use("/api/orders", tokenAuth, orderRoutes);
-app.use('/api/resources', tokenAuth, resourceRoutes);
+// app.use('/api/resource', resourceRoutes);
+app.use('/api/accommodation', accommodationRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/coupon', couponRoutes);
+app.use('/api/event', eventRoutes);
+app.use('/api/notification', notificationRoutes);
+app.use('/api/program', programRoutes);
+app.use('/api/social', socialRoutes);
+app.use('/api/transportation', transportationRoutes);
+app.use('/api/trip', tripRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/venue', venueRoutes);
 
 router.get('/api/ping', (req, res) => {
   res.status(200).json({ message: 'OK!' });

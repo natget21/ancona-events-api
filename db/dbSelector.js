@@ -22,7 +22,8 @@ const initializeDB = async () => {
 
 const getDBInstance = () => {
   if (!dbInstance) {
-    throw new Error("Database not initialized. Call initializeDB() first.");
+    return initializeDB();
+    // throw new Error("Database not initialized. Call initializeDB() first.");
   }
   return dbInstance;
 };

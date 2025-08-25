@@ -32,6 +32,18 @@ class DynamoDbDatabase extends Database {
     return result.Items;
   }
 
+  async getOne(model, query = {}) {
+    const params = {
+      TableName: model,
+      KeyConditionExpression: 'id = :id',
+      ExpressionAttributeValues: {
+        ':id': query.id
+      }
+    };
+    const result = await dynamoDb.query(params).promise();
+    return result.Items;
+  }
+
   async update(model, id, item) {
     const params = {
       TableName: model, 
@@ -51,7 +63,7 @@ class DynamoDbDatabase extends Database {
     return result.Attributes;
   }
 
-  async delete(model, id) {
+  async remove(model, id) {
     const params = {
       TableName: model, 
       Key: { id }

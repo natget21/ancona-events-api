@@ -20,13 +20,20 @@ class PostgresDbDatabase extends Database {
     });
   }
 
+  async getOne(model, query = {}) {
+    const Model = sequelize.models[model];
+    return await Model.findOne({
+      where: query, // You can filter by fields here
+    });
+  }
+
   async update(model, id, item) {
     const Model = sequelize.models[model];
     const doc = await Model.update(item, { where: { id }, returning: true });
     return doc[1][0]; // Returning the updated row
   }
 
-  async delete(model, id) {
+  async remove(model, id) {
     const Model = sequelize.models[model];
     await Model.destroy({ where: { id } });
   }

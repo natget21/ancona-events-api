@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 const ResourceSchema = new mongoose.Schema({
   userId: {
     type: String,
