@@ -24,8 +24,7 @@ const Accommodation = sequelize.define('Accommodation', {
   layoutMap: { type: DataTypes.STRING },
   regulations: { type: DataTypes.TEXT },
   contactPhone: { type: DataTypes.STRING },
-  contactEmail: { type: DataTypes.STRING },
-  location: { type: DataTypes.STRING, allowNull: false },
+  contactEmail: { type: DataTypes.STRING }
 }, {
   timestamps: false,
 });

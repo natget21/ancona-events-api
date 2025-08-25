@@ -8,7 +8,6 @@ const accommodationSchema = new mongoose.Schema({
   services: [String],
   capacity: Number,
   parkingInfo: { available: Boolean, details: String, paymentMethod: String },
-  location: { type: String, required: true },
   reservations: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     roomNumber: String
