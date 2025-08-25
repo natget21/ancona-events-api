@@ -6,6 +6,7 @@ const transportationSchema = new mongoose.Schema({
   timetable: String,
   price: Number,
   availability: Number,
+  status: { type: String, enum: ["Active", "Maintenance"], default: "Active" },
   event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' }
 });
 

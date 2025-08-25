@@ -11,6 +11,7 @@ const Transportation = sequelize.define('Transportation', {
   timetable: { type: DataTypes.STRING },
   price: { type: DataTypes.FLOAT },
   availability: { type: DataTypes.INTEGER },
+  status: { type: DataTypes.ENUM("Active", "Maintenance"), defaultValue: "Active" },
   eventId: {
     type: DataTypes.INTEGER,
     references: {

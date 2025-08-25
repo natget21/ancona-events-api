@@ -15,6 +15,8 @@ const Trip = sequelize.define('Trip', {
     difficultyLevel: { type: DataTypes.ENUM('easy', 'moderate', 'hard') },
     includes: { type: DataTypes.ARRAY(DataTypes.STRING) },
     excludes: { type: DataTypes.ARRAY(DataTypes.STRING) },
+    destination: { type: DataTypes.STRING, allowNull: false },
+    status: { type: DataTypes.ENUM("Available", "Sold Out"), defaultValue: "Available" },
 }, {
     timestamps: false,
 });

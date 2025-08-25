@@ -7,11 +7,13 @@ const couponSchema = new mongoose.Schema({
   validFrom: Date,
   validTo: Date,
   used: { type: Boolean, default: false },
-  usedAt: Date
-},{
-    timestamps: true,
-    versionKey: false
-  });
+  usedAt: Date,
+  discount: { type: Number, required: true },
+  type: { type: String, enum: ["Percentage", "Fixed"], required: true },
+}, {
+  timestamps: true,
+  versionKey: false
+});
 
 
 couponSchema.statics.redeem = async function (couponCode, userId) {
@@ -24,12 +26,12 @@ couponSchema.statics.redeem = async function (couponCode, userId) {
   if (coupon.validFrom && new Date() < coupon.validFrom) throw new Error('Coupon not yet valid');
   if (coupon.validTo && new Date() > coupon.validTo) throw new Error('Coupon expired');
 
-  
+
   coupon.used = true;
   coupon.usedAt = new Date();
   await coupon.save();
 
-  
+
   const attendance = new Attendance({
     user: userId,
     venue: coupon.venue,

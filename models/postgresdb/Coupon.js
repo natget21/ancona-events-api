@@ -29,6 +29,8 @@ const Coupon = sequelize.define('Coupon', {
   validTo: { type: DataTypes.DATE },
   used: { type: DataTypes.BOOLEAN, defaultValue: false },
   usedAt: { type: DataTypes.DATE },
+  discount: { type: DataTypes.FLOAT, allowNull: false },
+  type: { type: DataTypes.ENUM("Percentage", "Fixed"), allowNull: false },
 }, {
   timestamps: true, // same as MongoDB schema
   createdAt: true,

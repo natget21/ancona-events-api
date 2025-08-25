@@ -24,6 +24,7 @@ const Event = sequelize.define('Event', {
   maxAttendees: { type: DataTypes.INTEGER },
   tags: { type: DataTypes.ARRAY(DataTypes.STRING) }, // metaData.tags
   dressCode: { type: DataTypes.STRING },             // metaData.dressCode
+  status: { type: DataTypes.ENUM("Upcoming", "Planning", "Completed"), defaultValue: "Planning" },
 }, {
   timestamps: true,   // createdAt, updatedAt
   version: false,     // equivalent to versionKey: false
