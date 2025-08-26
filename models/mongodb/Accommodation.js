@@ -5,9 +5,9 @@ const accommodationSchema = new mongoose.Schema({
   venue: { type: mongoose.Schema.Types.ObjectId, ref: 'Venue' },
   checkIn: Date,
   checkOut: Date,
-  services: [String], 
+  services: [String],
   capacity: Number,
-  parkingInfo:{ available: Boolean, details: String,paymentMethod: String },
+  parkingInfo: { available: Boolean, details: String, paymentMethod: String },
   reservations: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     roomNumber: String
@@ -17,7 +17,7 @@ const accommodationSchema = new mongoose.Schema({
     checkoutProcedure: String,
     layoutMap: String,
     regulations: String,
-    contactInfo:{ phone: String, email: String }
+    contactInfo: { phone: String, email: String }
   },
 });
 

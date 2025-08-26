@@ -9,13 +9,14 @@ const eventSchema = new mongoose.Schema({
   endDateTime: Date,
   maxAttendees: Number,
   program: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Program' }],
+  status: { type: String, enum: ["Upcoming", "Planning", "Completed"], default: "Planning" },
   metaData: {
     dressCode: String,
     tags: [String],
   },
-},{
-    timestamps: true,
-    versionKey: false
-  });
+}, {
+  timestamps: true,
+  versionKey: false
+});
 
 export default mongoose.model('Event', eventSchema);
