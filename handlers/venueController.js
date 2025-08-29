@@ -1,6 +1,6 @@
 import { getDBInstance  } from '../db/dbSelector.js';
 
-const db = getDBInstance();
+const db = await getDBInstance();
 const collectionName = "Venue"
 
 export const getVenueById = async (req, res) => {

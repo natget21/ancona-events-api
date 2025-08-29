@@ -1,6 +1,6 @@
-import { getDBInstance  } from '../db/dbSelector.js';
+import { getDBInstance } from '../db/dbSelector.js';
 
-const db = getDBInstance();
+const db = await getDBInstance();
 
 const collectionName = "Attendance"
 

@@ -1,6 +1,6 @@
-import { getDBInstance  } from '../db/dbSelector.js';
+import { getDBInstance } from '../db/dbSelector.js';
 
-const db = getDBInstance();
+const db = await getDBInstance();
 const collectionName = "User"
 
 export const getUserById = async (req, res) => {
@@ -9,7 +9,7 @@ export const getUserById = async (req, res) => {
 };
 
 export const getUsersByRole = async (req, res) => {
-  const response = await db.get(collectionName, {role: req.params.role});
+  const response = await db.get(collectionName, { role: req.params.role });
   res.json(response);
 };
 
