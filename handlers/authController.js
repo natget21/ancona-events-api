@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { getDBInstance  } from '../db/dbSelector.js';
 
-const db = await getDBInstance();
 const userCollectionName = "User";
 const notificationCollectionName = "Notification";
 
@@ -16,11 +15,11 @@ export const register = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   try {
-    const existingUser = await db.getOne(userCollectionName, { email: email });
+    const existingUser = await getDBInstance().getOne(userCollectionName, { email: email });
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
 
-    const user = await db.create(userCollectionName,{
+    const user = await getDBInstance().create(userCollectionName,{
       firstName,
       lastName,
       email,
@@ -50,7 +49,7 @@ export const login = async (req, res) => {
     return res.status(400).json({ message: "Email and password are required" });
 
   try {
-    const user = await db.userAuthenticate(email, password);
+    const user = await getDBInstance().userAuthenticate(email, password);
 
     const token = generateToken(user._id, user.role);
     res.json({
@@ -67,7 +66,7 @@ export const login = async (req, res) => {
 
 export const getUserData = async (req, res) => {
   try {
-    const user = await db.getById(userCollectionName, req.id);
+    const user = await getDBInstance().getById(userCollectionName, req.id);
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (error) {
@@ -82,7 +81,7 @@ try {
     delete updates.id;
     delete updates._id;
 
-    const user = await db.update(userCollectionName, req.id, updates);
+    const user = await getDBInstance().update(userCollectionName, req.id, updates);
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (error) {
@@ -93,7 +92,7 @@ try {
 export const forgetPasswordRequest = async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await db.getOne(userCollectionName, { email });
+    const user = await getDBInstance().getOne(userCollectionName, { email });
     if (!user) return res.status(404).json({ message: "User not found" });
 
 
@@ -110,7 +109,7 @@ export const forgetPasswordRequest = async (req, res) => {
 
     await Email.sendMail(email, subject, body, bodyHtml);
 
-    db.create(notificationCollectionName,{
+    getDBInstance().create(notificationCollectionName,{
       userId: user._id,
       type: "system",
       title: "Password Reset Request",
@@ -128,7 +127,7 @@ export const forgetPasswordUpdate = async (req, res) => {
 try {
     const { newPassword,token } = req.body;
 
-    const user = await db.getOne(userCollectionName, {resetPasswordToken: token, resetPasswordExpire: { $gt: Date.now() }});
+    const user = await getDBInstance().getOne(userCollectionName, {resetPasswordToken: token, resetPasswordExpire: { $gt: Date.now() }});
 
     if (!user) return res.status(400).json({ message: "Invalid or expired token" });
 
@@ -138,7 +137,7 @@ try {
 
     await user.save();
 
-    db.create(notificationCollectionName,{
+    getDBInstance().create(notificationCollectionName,{
       userId: user._id,
       type: "system",
       title: "Password Reset Success",
@@ -155,7 +154,7 @@ export const resetPassword = async (req, res) => {
 try {
     const { currentPassword, newPassword } = req.body;
 
-    const user = await db.getById(userCollectionName, req.id,null,"+password");
+    const user = await getDBInstance().getById(userCollectionName, req.id,null,"+password");
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const isMatch = await bcrypt.compare(currentPassword, user.password);
@@ -164,7 +163,7 @@ try {
     user.password = newPassword
     await user.save();
 
-    db.create(notificationCollectionName,{
+    getDBInstance().create(notificationCollectionName,{
       userId: user._id,
       type: "system",
       title: "Password update Success",
@@ -287,9 +286,9 @@ export const signinWithProvider = async (req, res) => {
       return res.status(400).json({ message: "Unsupported provider" });
     }
 
-    let user = await db.getOne(userCollectionName, { email: userInfo.email });
+    let user = await getDBInstance().getOne(userCollectionName, { email: userInfo.email });
     if (!user) {
-      user = await db.create(userCollectionName,{
+      user = await getDBInstance().create(userCollectionName,{
         firstName: userInfo.given_name || '',
         lastName: userInfo.family_name || '',
         email: userInfo.email,
