@@ -8,6 +8,7 @@ const eventSchema = new mongoose.Schema({
   startDateTime: Date,
   endDateTime: Date,
   maxAttendees: Number,
+  eventType: { type: String, enum: ['conference', 'workshop', 'seminar', 'other'] },
   program: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Program' }],
   status: { type: String, enum: ["Upcoming", "Planning", "Completed"], default: "Planning" },
   metaData: {

@@ -12,32 +12,36 @@ const userSchema = new mongoose.Schema({
     deviceId: { type: String },
     preferredLang: {
       type: String,
-      enum: ["en", "am"],
+      enum: ["en", "it"],
       default: "en"
     },
     selectedTheme: {
       type: String,
       enum: ["light", "dark"],
       default: "light"
-    }
+    },
+    accommodationDetail:{
+      accommodationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Accommodation' },
+      roomNumber: String
+    } 
   },
   gender: { type: String },
   password: { type: String, required: true, select: false },
   role: { type: String, enum: ['delegate', 'organizer', 'admin', 'partner'], default: 'delegate' },
   provider: { type: String, enum: ['local', 'google', 'facebook', 'auth0'], default: 'local' },
   status: {
-      type: String,
-      enum: ["pending", "active", "rejected", "blocked"],
-      default: "pending",
-    },
-    resetPasswordToken: { 
-      type: String,
-      select: false
-    },
-    resetPasswordExpire: { 
-      type: Date,
-      select: false
-    },
+    type: String,
+    enum: ["pending", "active", "rejected", "blocked"],
+    default: "pending",
+  },
+  resetPasswordToken: { 
+    type: String,
+    select: false
+  },
+  resetPasswordExpire: { 
+    type: Date,
+    select: false
+  },
 },{
     timestamps: true,
     versionKey: false
