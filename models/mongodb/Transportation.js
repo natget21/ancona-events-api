@@ -11,7 +11,7 @@ const transportationSchema = new mongoose.Schema({
   shuttleEndPlace: String,
   price: Number,
   availability: Number,
-  status: { type: String, enum: ["active", "inactive", "maintenance", "out of service"], default: "active" },
+  status: { type: String, enum: ["active", "inactive", "maintenance", "out-of-service"], default: "active" },
 });
 
 export default mongoose.model('Transportation', transportationSchema);

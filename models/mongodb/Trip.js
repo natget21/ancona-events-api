@@ -33,7 +33,7 @@ const tripSchema = new mongoose.Schema({
   excludes: [String],
   participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   destination: { type: String, required: true },
-  status: { type: String, enum: ["available", "sold out", "cancelled", "planning"], default: "available" },
+  status: { type: String, enum: ["available", "sold-out", "cancelled", "planning"], default: "available" },
 });
 
 export default mongoose.model('Trip', tripSchema);

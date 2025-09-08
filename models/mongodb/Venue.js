@@ -13,10 +13,10 @@ const venueSchema = new mongoose.Schema({
     lat: Number,
     lng: Number
   },
-  type: { type: String, enum: ['conference', 'bar', 'restaurant', 'hotel', 'other'] }
-},{
-    timestamps: true,
-    versionKey: false
-  });
+  type: { type: String, enum: ['conference', 'bar', 'restaurant', 'hotel', 'cruise-ship', 'other'] }
+}, {
+  timestamps: true,
+  versionKey: false
+});
 
 export default mongoose.model('Venue', venueSchema);

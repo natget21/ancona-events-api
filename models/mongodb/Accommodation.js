@@ -9,29 +9,31 @@ const accommodationSchema = new mongoose.Schema({
   services: [String],
   capacity: Number,
   coverPicture: String,
-  parkingInfo: { 
-    available: Boolean, 
-    details: String, 
-    paymentMethod: [String] 
+  parkingInfo: {
+    available: Boolean,
+    details: String,
+    paymentMethod: [String]
   },
   reservations: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     roomNumber: String
   }],
+  rooms: [{ type: String, noOfRooms: Number }],
+  images: [String],
   metaData: {
     checkInProcedure: String,
     checkoutProcedure: String,
     regulations: [String],
-    contactInfo: [{ phone: String, email: String,label: String }],
-    deckMapImages:[{
+    contactInfo: [{ phone: String, email: String, label: String }],
+    deckMapImages: [{
       title: String,
       description: String,
       image: String
     }]
   },
-},{
-    timestamps: true,
-    versionKey: false
-  });
+}, {
+  timestamps: true,
+  versionKey: false
+});
 
 export default mongoose.model('Accommodation', accommodationSchema);
