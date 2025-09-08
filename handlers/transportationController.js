@@ -1,4 +1,4 @@
-import { getDBInstance  } from '../db/dbSelector.js';
+import { getDBInstance } from '../db/dbSelector.js';
 
 const collectionName = "Transportation"
 

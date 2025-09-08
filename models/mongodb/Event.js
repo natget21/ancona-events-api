@@ -10,7 +10,7 @@ const eventSchema = new mongoose.Schema({
   maxAttendees: Number,
   eventType: { type: String, enum: ['conference', 'workshop', 'seminar', 'other'] },
   program: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Program' }],
-  status: { type: String, enum: ["Upcoming", "Planning", "Completed"], default: "Planning" },
+  status: { type: String, enum: ["upcoming", "planning", "completed"], default: "planning" },
   metaData: {
     dressCode: String,
     tags: [String],
