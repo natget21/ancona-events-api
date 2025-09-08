@@ -10,3 +10,4 @@ import './Transportation.js';
 import './Trip.js';
 import './User.js';
 import './Venue.js';
+import './ParkingLot.js';
