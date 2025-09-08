@@ -2,14 +2,15 @@ import mongoose from 'mongoose';
 
 const couponSchema = new mongoose.Schema({
   code: { type: String, unique: true, required: true },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
   venue: { type: mongoose.Schema.Types.ObjectId, ref: 'Venue', required: true },
   validFrom: Date,
   validTo: Date,
   used: { type: Boolean, default: false },
   usedAt: Date,
   discount: { type: Number, required: true },
-  type: { type: String, enum: ["Percentage", "Fixed"], required: true },
+  type: { type: String, enum: ["percentage", "fixed"], required: true },
+  status: { type: String, enum: ["active", "inactive", "expired"], default: "active" },
 }, {
   timestamps: true,
   versionKey: false

@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     deviceId: { type: String },
     preferredLang: {
       type: String,
-      enum: ["en", "am"],
+      enum: ["en", "it"],
       default: "en"
     },
     selectedTheme: {
@@ -26,32 +26,32 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['delegate', 'organizer', 'admin', 'partner'], default: 'delegate' },
   provider: { type: String, enum: ['local', 'google', 'facebook', 'auth0'], default: 'local' },
   status: {
-      type: String,
-      enum: ["pending", "active", "rejected", "blocked"],
-      default: "pending",
-    },
-    resetPasswordToken: { 
-      type: String,
-      select: false
-    },
-    resetPasswordExpire: { 
-      type: Date,
-      select: false
-    },
-},{
-    timestamps: true,
-    versionKey: false
-  });
+    type: String,
+    enum: ["pending", "active", "rejected", "blocked"],
+    default: "pending",
+  },
+  resetPasswordToken: {
+    type: String,
+    select: false
+  },
+  resetPasswordExpire: {
+    type: Date,
+    select: false
+  },
+}, {
+  timestamps: true,
+  versionKey: false
+});
 
 
-userSchema.pre("save", function(next) {
+userSchema.pre("save", function (next) {
   let user = this;
 
   if (!user.isModified("password")) {
     return next();
   }
 
-  bcrypt.hash(user.password, config.HASH_ROUND, function(err, hash) {
+  bcrypt.hash(user.password, config.HASH_ROUND, function (err, hash) {
     if (err) {
       console.log("error: 500 unable to hash password!");
     } else {
@@ -61,7 +61,7 @@ userSchema.pre("save", function(next) {
   });
 });
 
-userSchema.statics.authenticate = async function(username, password) {
+userSchema.statics.authenticate = async function (username, password) {
   try {
     const user = await this.findOne({ email: username }).select('+password');
 
@@ -83,7 +83,7 @@ userSchema.statics.authenticate = async function(username, password) {
       error.status = 401;
       throw error;
     }
-    
+
     return user;
 
   } catch (err) {
