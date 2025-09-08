@@ -1,9 +1,13 @@
 import express from 'express';
 
 import auth from '../middleware/authMiddleware.js';
-import { getVenueById,getAllVenues,createVenue,updateVenue,deleteVenue } from '../handlers/venueController.js';
+import { getVenueById,getAllVenues,createVenue,updateVenue,deleteVenue,findVenues } from '../handlers/venueController.js';
 
 const router = express.Router();
+
+// custom routes
+router.get('/find', findVenues);
+
 
 router.get('/:id', getVenueById);
 router.get('/', getAllVenues);

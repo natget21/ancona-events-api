@@ -2,7 +2,6 @@ import express from 'express';
 
 import auth from '../middleware/authMiddleware.js';
 import { register, login,getUserData,updateUserData,forgetPasswordRequest,forgetPasswordUpdate,resetPassword,signinWithProvider,registerWithProvider } from "../handlers/authController.js";
-import { sign } from 'crypto';
 
 const router = express.Router();
 
