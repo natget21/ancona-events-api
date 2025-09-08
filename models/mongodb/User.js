@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema({
       type: String,
       enum: ["light", "dark"],
       default: "light"
-    }
+    },
+    accommodationDetail:{
+      accommodationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Accommodation' },
+      roomNumber: String
+    } 
   },
   gender: { type: String },
   password: { type: String, required: true, select: false },
@@ -30,18 +34,18 @@ const userSchema = new mongoose.Schema({
     enum: ["pending", "active", "rejected", "blocked"],
     default: "pending",
   },
-  resetPasswordToken: {
+  resetPasswordToken: { 
     type: String,
     select: false
   },
-  resetPasswordExpire: {
+  resetPasswordExpire: { 
     type: Date,
     select: false
   },
-}, {
-  timestamps: true,
-  versionKey: false
-});
+},{
+    timestamps: true,
+    versionKey: false
+  });
 
 
 userSchema.pre("save", function (next) {

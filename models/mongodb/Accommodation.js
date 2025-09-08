@@ -2,12 +2,18 @@ import mongoose from 'mongoose';
 
 const accommodationSchema = new mongoose.Schema({
   name: String,
+  description: String,
   venue: { type: mongoose.Schema.Types.ObjectId, ref: 'Venue' },
-  checkIn: Date,
-  checkOut: Date,
+  checkInTime: String,
+  checkOutTime: String,
   services: [String],
   capacity: Number,
-  parkingInfo: { available: Boolean, details: String, paymentMethod: String },
+  coverPicture: String,
+  parkingInfo: { 
+    available: Boolean, 
+    details: String, 
+    paymentMethod: [String] 
+  },
   reservations: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     roomNumber: String
@@ -15,10 +21,17 @@ const accommodationSchema = new mongoose.Schema({
   metaData: {
     checkInProcedure: String,
     checkoutProcedure: String,
-    layoutMap: String,
-    regulations: String,
-    contactInfo: { phone: String, email: String }
+    regulations: [String],
+    contactInfo: [{ phone: String, email: String,label: String }],
+    deckMapImages:[{
+      title: String,
+      description: String,
+      image: String
+    }]
   },
-});
+},{
+    timestamps: true,
+    versionKey: false
+  });
 
 export default mongoose.model('Accommodation', accommodationSchema);

@@ -1,9 +1,12 @@
 import express from 'express';
 
 import auth from '../middleware/authMiddleware.js';
-import { getEventById,getAllEvents,createEvent,updateEvent,deleteEvent } from '../handlers/eventController.js';
+import { getEventById,getAllEvents,createEvent,updateEvent,deleteEvent,findEvents } from '../handlers/eventController.js';
 
 const router = express.Router();
+
+// custom routes
+router.get('/find', findEvents);
 
 router.get('/:id', getEventById);
 router.get('/', getAllEvents);

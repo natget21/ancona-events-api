@@ -2,12 +2,16 @@ import mongoose from 'mongoose';
 
 const transportationSchema = new mongoose.Schema({
   type: { type: String, enum: ['bus', 'shuttle', 'ship', 'car', 'other'], required: true },
-  route: String,
-  timetable: [String],
+  name: { type: String, required: true },
+  description: String,
+  route: [{ street: String, time: String, stop: String, order: Number }],
+  timetable: [{ order: Number, departureTime: String, arrivalTime: String, duration: String }],
+  frequency: String,
+  shuttleStartPlace: String,
+  shuttleEndPlace: String,
   price: Number,
-  capacity: Number,
+  availability: Number,
   status: { type: String, enum: ["active", "inactive", "maintenance", "out of service"], default: "active" },
-  event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' }
 });
 
 export default mongoose.model('Transportation', transportationSchema);
