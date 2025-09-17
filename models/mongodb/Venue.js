@@ -4,10 +4,12 @@ const venueSchema = new mongoose.Schema({
   name: { type: String, required: true },
   address: String,
   city: String,
+  country: String,
   capacity: Number,
   description: String,
   coverPicture: String,
   contactNumber: String,
+  contactEmail: String,
   openingHours: String,
   geo: {
     lat: Number,
