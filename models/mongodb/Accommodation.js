@@ -18,7 +18,12 @@ const accommodationSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     roomNumber: String
   }],
-  rooms: [{ type: String, noOfRooms: Number }],
+  rooms: [
+    {
+      type: { type: String, required: true },
+      noOfRooms: { type: Number, required: true, min: 1 },
+    }
+  ],
   images: [String],
   metaData: {
     checkInProcedure: String,
