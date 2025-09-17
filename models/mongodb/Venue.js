@@ -10,7 +10,10 @@ const venueSchema = new mongoose.Schema({
   coverPicture: String,
   contactNumber: String,
   contactEmail: String,
-  openingHours: String,
+  openingHours: {
+    type: Object,
+    default: {}
+  },
   geo: {
     lat: Number,
     lng: Number
