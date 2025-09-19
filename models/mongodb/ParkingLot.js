@@ -5,7 +5,7 @@ const ParkingLotSchema = new mongoose.Schema({
   address: { type: String, required: true },
   capacity: { type: Number, required: true },
   available: { type: Number, required: true },
-  shuttleInfo: { type: String }, 
+  description: { type: String }, 
   payments: [{
     type: String,
     enum: ['cash', 'card', 'app'], 
