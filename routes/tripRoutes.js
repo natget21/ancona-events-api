@@ -1,9 +1,12 @@
 import express from 'express';
 
 import auth from '../middleware/authMiddleware.js';
-import { getTripById,getAllTrips,createTrip,updateTrip,deleteTrip } from '../handlers/tripController.js';
+import { getTripById, getAllTrips, createTrip, updateTrip, deleteTrip, findTrips, findTripById } from '../handlers/tripController.js';
 
 const router = express.Router();
+
+router.get('/find', findTrips);
+router.get('/findById', findTripById);
 
 router.get('/:id', getTripById);
 router.get('/', getAllTrips);

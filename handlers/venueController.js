@@ -13,7 +13,6 @@ export const getAllVenues = async (req, res) => {
 };
 
 export const createVenue = async (req, res) => {
-  console.log(db,"db");
   const response = await getDBInstance().create(collectionName, req.body);
   res.status(201).json(response);
 };
