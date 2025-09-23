@@ -5,8 +5,8 @@ import { getSocialById,getAllSocials,createSocial,updateSocial,deleteSocial,getP
 
 const router = express.Router();
 
-router.get('/posts', getPosts);
-router.get('/stories', getStories);
+router.get('/posts',auth.isAuthenticated, getPosts);
+router.get('/stories',auth.isAuthenticated, getStories);
 
 router.get('/:id', getSocialById);
 router.get('/', getAllSocials);

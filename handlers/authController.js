@@ -1,5 +1,7 @@
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { OAuth2Client } from "google-auth-library";
+
 import { getDBInstance  } from '../db/dbSelector.js';
 
 const userCollectionName = "User";
@@ -351,3 +353,90 @@ export const registerWithProvider = async (req, res) => {
     res.status(401).json({ error: "Google authentication failed" });
   }
 }
+
+export const authWithProvider = async (req, res) => {
+  const {provider, token, email, name, photo } = req.body;
+
+  if (!provider || !token) {
+    return res.status(400).json({ message: "Provider and token are required" });
+  }
+
+  try {
+    let verifiedEmail = email;
+    let verifiedName = name;
+    let verifiedPhoto = photo;
+
+    // 🔹 Verify token with provider
+    if (provider === "google") {
+      const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+      const ticket = await googleClient.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+
+      const payload = ticket.getPayload();
+      verifiedEmail = payload.email;
+      verifiedName = payload.name;
+      verifiedPhoto = payload.picture;
+    }else if (provider === "apple") {
+      const applePayload = await appleSignin.verifyIdToken(token, {
+        audience: process.env.APPLE_CLIENT_ID,
+        ignoreExpiration: false,
+      });
+
+       if(applePayload){
+        verifiedEmail = applePayload.email;
+       }
+
+    }else if (provider === "facebook") {
+      const fbResponse = await axios.get(
+        `https://graph.facebook.com/me?fields=id,name,email,picture&access_token=${token}`
+      );
+      
+      verifiedEmail = fbResponse.data.email;
+      verifiedName = fbResponse.data.name;
+      verifiedPhoto = fbResponse.data.picture?.data?.url;
+    }
+
+    if (!verifiedEmail) {
+      return res.status(400).json({ message: "Unable to retrieve user email" });
+    }
+
+    try {
+      const user = await getDBInstance().userSSOAuthenticate(verifiedEmail, provider);
+
+      if (!user) {
+        user = await getDBInstance().create(userCollectionName,{
+          firstName: verifiedName.split(" ")[0],
+          lastName: verifiedName.split(" ")[1],
+          email: verifiedEmail,
+          profilePicture: verifiedPhoto,
+          provider,
+          status: "active",
+        });
+        user = await User.create({
+          email: verifiedEmail,
+          name: verifiedName,
+          photo: verifiedPhoto,
+          provider,
+        });
+      }
+
+      const token = generateToken(user._id, user.role);
+      res.json({
+        "user":user,
+        "token":token,
+        "expiresIn": config.TOKEN_TIMEOUT,
+        "message": "login successful"
+      });
+
+    } catch (error) {
+      return res.status(error.status).json({ message: error.message || "Invalid email or password" });
+    }
+  } catch (err) {
+    console.error("SSO error:", err.message);
+    return res.status(401).json({ message: "Invalid social login", error: err.message });
+  }
+};
+
+authWithProvider

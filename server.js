@@ -20,6 +20,7 @@ import tripRoutes from './routes/tripRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import venueRoutes from './routes/venueRoutes.js';
 import parkingLotRoutes from './routes/parkingLotRoutes.js';
+import externalServiceRoutes from './routes/externalServiceRoutes.js';
 
 
 import {tokenAuth,scopeAuth} from './middleware/auth0.js';
@@ -59,6 +60,7 @@ app.use('/api/trip', tripRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/venue', venueRoutes);
 app.use('/api/parkingLot', parkingLotRoutes);
+app.use('/api/externalService', externalServiceRoutes);
 
 router.get('/api/ping', (req, res) => {
   res.status(200).json({ message: 'OK!' });

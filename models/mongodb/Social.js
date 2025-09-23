@@ -21,7 +21,7 @@ const socialSchema = new mongoose.Schema({
   media: [mediaSchema],
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   comments: [commentSchema],
-  expiresAt: { type: Date }, 
+  expiresAt: { type: Date,Default: Date.now }, 
   viewedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
 }, {

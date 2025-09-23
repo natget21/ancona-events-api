@@ -30,10 +30,11 @@ export const deleteSocial = async (req, res) => {
 export const getPosts = async (req, res) => {
   try {
     const userId = req.id;
-    const posts = await getDBInstance().get(collectionName, { type: 'post' });
+    const populate = ["user"]
+    const posts = await getDBInstance().get(collectionName, { type: 'post' },{},{}, populate);
 
     const formattedPosts = posts.map(post => ({
-      id: post._id,
+      _id: post._id,
       username: post.user?.username || 'Unknown',
       profileImage: post.user?.profileImage || '',
       imageUrl: post.imageUrl || (post.media?.[0]?.url ?? ''),
@@ -68,20 +69,22 @@ export const getStories = async (req, res) => {
   try {
     const userId = req.id; 
     const now = new Date();
-
+    const populate = ["user"]
     const stories = await getDBInstance().get(collectionName, {
         type: 'story',
         $or: [
           { expiresAt: { $exists: false } }, 
           { expiresAt: { $gt: now } }      
         ]
-    });
+    },{},{}, populate);
 
     const formattedStories = stories.map(story => ({
-      id: story._id,
+      _id: story._id,
       username: story.user?.username || 'Unknown',
-      profileImage: story.user?.profileImage || '',
+      profileImage: story.user?.profilePicture || '',
       isOfficial: story.user?.isOfficial || false,
+      caption: story.caption || '',
+      imageUrl: story.imageUrl || (story.media?.[0]?.url ?? ''),
       isViewed: userId ? story.viewedBy.some(u => u.equals(userId)) : false,
       viewedBy: story.viewedBy.map(u => u.toString()),
       expired: story.expiresAt ? story.expiresAt <= now : false

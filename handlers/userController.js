@@ -42,3 +42,25 @@ export const assignAccommodationToUser = async (req, res) => {
   const response = await getDBInstance().update(collectionName, req.body.userId, updateData);
   res.json(response);
 };
+
+export const updateDeviceToken = async (req, res) => {
+  const updateData = {"metaData.deviceId": req.body.token}
+
+  const response = await getDBInstance().update(collectionName, req.id, updateData);
+  res.json(response);
+};
+
+export const updateUserMetaData = async (req, res) => {
+
+  var items = Object.keys(req.body);
+
+  const updateData = {}
+
+  items.forEach((item) => {
+    updateData[`metaData.${item}`] = req.body[item]
+  });
+  
+
+  const response = await getDBInstance().update(collectionName, req.id, updateData);
+  res.json(response);
+};

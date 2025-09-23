@@ -8,7 +8,10 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
   phone: { type: String, unique: true },
   profilePicture: { type: String },
+  username: { type: String, unique: true, required: true },
   metaData: {
+    allowPushNotifications: { type: Boolean, default: true },
+    allowEmailNotifications: { type: Boolean, default: true },
     deviceId: { type: String },
     preferredLang: {
       type: String,
@@ -90,6 +93,29 @@ userSchema.statics.authenticate = async function (username, password) {
 
     return user;
 
+  } catch (err) {
+    throw err;
+  }
+};
+
+userSchema.statics.authenticateSSO = async function (email, provider) {
+  try {
+    const user = await this.findOne({ email: email,provider: provider });
+
+    if (!user) {
+      const error = new Error("User not found.");
+      error.status = 401;
+      throw error;
+    }
+
+    if (user.status !== "active") {
+      const error = new Error("User is not active.");
+      error.status = 401;
+      throw error;
+    }
+
+    return user;
+    
   } catch (err) {
     throw err;
   }

@@ -105,6 +105,16 @@ class MongoDbDatabase extends Database {
     
     return user;
   }
+
+  async userSSOAuthenticate(email, provider) {
+    
+    const Model = mongoose.models['User'];
+    if (!Model) throw new Error(`Model ${collectionName} not found`);
+
+    var user = await Model.authenticateSSO(email, provider);
+    
+    return user;
+  }
 }
 
 export { MongoDbDatabase };

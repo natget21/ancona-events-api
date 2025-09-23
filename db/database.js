@@ -26,6 +26,10 @@ class Database {
     async userAuthenticate(email, password) {
       throw new Error("Method 'userAuthenticate()' must be implemented.");
     }
+
+    async userSSOAuthenticate(email, provider) {
+      throw new Error("Method 'userSSOAuthenticate()' must be implemented.");
+    }
   }
   
   export { Database };
